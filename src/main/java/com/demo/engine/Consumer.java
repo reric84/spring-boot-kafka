@@ -1,5 +1,6 @@
 package com.demo.engine;
 
+import com.demo.engine.model.Foo2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,15 +17,15 @@ public class Consumer {
     }
 
     @KafkaListener(id = "fooGroup", topics = "topic1")
-    public void listen(String in) {
-        logger.info("Received: " + in);
-        if (in.startsWith("foo")) {
+    public void listen(Foo2 foo) {
+        logger.info("Received: " + foo);
+        if (foo.getFoo().startsWith("fail")) {
             throw new RuntimeException("failed");
         }
     }
 
     @KafkaListener(id = "dltGroup", topics = "topic1.DLT")
-    public void dltListen(String in) {
+    public void dltListen(Foo2 in) {
         logger.info("Received from DLT: " + in);
     }
 

@@ -10,6 +10,8 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+import org.springframework.kafka.support.converter.RecordMessageConverter;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 
 @SpringBootApplication
 public class SpringBootWithKafkaApplication {
@@ -23,6 +25,11 @@ public class SpringBootWithKafkaApplication {
         factory.setErrorHandler(new SeekToCurrentErrorHandler(
                 new DeadLetterPublishingRecoverer(template), 3));
         return factory;
+    }
+
+    @Bean
+    public RecordMessageConverter converter() {
+        return new StringJsonMessageConverter();
     }
 
     @Bean
